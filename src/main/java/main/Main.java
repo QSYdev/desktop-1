@@ -14,7 +14,7 @@ public final class Main {
 
 	public static void main(final String[] args) throws Exception {
 
-		final InetSocketAddress addr = new InetSocketAddress(InetAddress.getByName("192.168.0.16"), QSYPacket.MULTICAST_PORT);
+		final InetSocketAddress addr = new InetSocketAddress(InetAddress.getByName("192.168.0.201"), QSYPacket.MULTICAST_PORT);
 		final MulticastReceiver multicastReceiver = new MulticastReceiver(addr, QSYPacket.MULTICAST_ADDRESS);
 		final Terminal terminal = new Terminal();
 		final ReceiverSelector receiverSelector = new ReceiverSelector();

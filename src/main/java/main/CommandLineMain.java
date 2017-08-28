@@ -1,5 +1,3 @@
-package ar.com.qsy.src.app.main;
-
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -14,7 +12,7 @@ import ar.com.qsy.src.app.terminal.Terminal;
 public class CommandLineMain {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		final InetSocketAddress addr = new InetSocketAddress(InetAddress.getByName("192.168.0.18"), QSYPacket.MULTICAST_PORT);
+		final InetSocketAddress addr = new InetSocketAddress(InetAddress.getByName("192.168.0.201"), QSYPacket.MULTICAST_PORT);
 		MulticastReceiver multicastReceiver =  null;
 		Terminal terminal = null;
 		ReceiverSelector receiverSelector = null;
@@ -25,16 +23,13 @@ public class CommandLineMain {
 		Thread threadMulticastReceiver = null;
 		boolean up = false;
 		
-		
 		System.out.println("Comandos:");
 		System.out.println("s: Iniciar terminal.");
 		System.out.println("p: Terminar terminal.");
-		System.out.println("a: Iniciar búsqueda de nodos");
-		System.out.println("x: Detener búsqueda de nodos");
+		System.out.println("a: Iniciar bÃºsqueda de nodos");
+		System.out.println("x: Detener bÃºsqueda de nodos");
 		System.out.println("q: Salir");
-		
-		
-		
+
 		Scanner sc = new Scanner(System.in);
 		char option = 0;
 		while(option != 'q') {
@@ -44,7 +39,7 @@ public class CommandLineMain {
 			switch (option) {
 			case 's':
 				if(up) {
-					System.out.println("Terminal ya está corriendo.");
+					System.out.println("Terminal ya estÃ¡ corriendo.");
 					break;
 				}
 				
@@ -71,7 +66,7 @@ public class CommandLineMain {
 			case 'p':
 			case 'q':
 				if (!up) {
-					System.out.println("Terminal no está corriendo.");
+					System.out.println("Terminal no estÃ¡ corriendo.");
 					break;
 				}
 				threadReceiveSelector.interrupt();
@@ -87,19 +82,19 @@ public class CommandLineMain {
 				break;
 			case 'a':
 				if (!up) {
-					System.out.println("Terminal no está corriendo.");
+					System.out.println("Terminal no estÃ¡ corriendo.");
 					break;
 				}
 				terminal.searchNodes();
-				System.out.println("Búsqueda de nodos iniciada.");
+				System.out.println("BÃºsqueda de nodos iniciada.");
 				break;
 			case 'x':
 				if (!up) {
-					System.out.println("Terminal no está corriendo.");
+					System.out.println("Terminal no estÃ¡ corriendo.");
 					break;
 				}
 				terminal.finalizeNodesSearch();
-				System.out.println("Búsqueda detenida.");
+				System.out.println("BÃºsqueda detenida.");
 				break;
 			default:
 				break;
@@ -108,5 +103,4 @@ public class CommandLineMain {
 		sc.close();
 		System.out.print("Buh-bye");
 	}
-
 }

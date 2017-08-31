@@ -1,6 +1,6 @@
 package view;
 
-import ar.com.qsy.src.app.node.Node;
+import libterminal.lib.node.Node;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

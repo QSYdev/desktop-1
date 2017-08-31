@@ -1,9 +1,9 @@
 package view;
 
-import ar.com.qsy.src.app.node.Node;
-import ar.com.qsy.src.app.terminal.Terminal;
-import ar.com.qsy.src.patterns.observer.Event;
-import ar.com.qsy.src.patterns.observer.EventListener;
+import libterminal.lib.node.Node;
+import libterminal.lib.terminal.Terminal;
+import libterminal.patterns.observer.Event;
+import libterminal.patterns.observer.EventListener;
 
 import java.awt.BorderLayout;
 import java.awt.Container;

@@ -1,15 +1,15 @@
-package ar.com.qsy.src.app.main;
+package main;
+
+import libterminal.lib.network.MulticastReceiver;
+import libterminal.lib.network.ReceiverSelector;
+import libterminal.lib.network.SenderSelector;
+import libterminal.lib.protocol.QSYPacket;
+import libterminal.lib.terminal.Terminal;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.Scanner;
-
-import ar.com.qsy.src.app.network.MulticastReceiver;
-import ar.com.qsy.src.app.network.ReceiverSelector;
-import ar.com.qsy.src.app.network.SenderSelector;
-import ar.com.qsy.src.app.protocol.QSYPacket;
-import ar.com.qsy.src.app.terminal.Terminal;
 
 public class CommandLineMain {
 
@@ -29,8 +29,8 @@ public class CommandLineMain {
 		System.out.println("Comandos:");
 		System.out.println("s: Iniciar terminal.");
 		System.out.println("p: Terminar terminal.");
-		System.out.println("a: Iniciar búsqueda de nodos");
-		System.out.println("x: Detener búsqueda de nodos");
+		System.out.println("a: Iniciar busqueda de nodos");
+		System.out.println("x: Detener busqueda de nodos");
 		System.out.println("q: Salir");
 		
 		
@@ -44,7 +44,7 @@ public class CommandLineMain {
 			switch (option) {
 			case 's':
 				if(up) {
-					System.out.println("Terminal ya está corriendo.");
+					System.out.println("Terminal ya esta corriendo.");
 					break;
 				}
 				
@@ -71,7 +71,7 @@ public class CommandLineMain {
 			case 'p':
 			case 'q':
 				if (!up) {
-					System.out.println("Terminal no está corriendo.");
+					System.out.println("Terminal no esta corriendo.");
 					break;
 				}
 				threadReceiveSelector.interrupt();
@@ -87,19 +87,19 @@ public class CommandLineMain {
 				break;
 			case 'a':
 				if (!up) {
-					System.out.println("Terminal no está corriendo.");
+					System.out.println("Terminal no esta corriendo.");
 					break;
 				}
 				terminal.searchNodes();
-				System.out.println("Búsqueda de nodos iniciada.");
+				System.out.println("Busqueda de nodos iniciada.");
 				break;
 			case 'x':
 				if (!up) {
-					System.out.println("Terminal no está corriendo.");
+					System.out.println("Terminal no esta corriendo.");
 					break;
 				}
 				terminal.finalizeNodesSearch();
-				System.out.println("Búsqueda detenida.");
+				System.out.println("Busqueda detenida.");
 				break;
 			default:
 				break;

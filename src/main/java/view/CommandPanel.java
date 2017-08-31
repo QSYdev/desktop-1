@@ -1,8 +1,8 @@
 package view;
 
-import ar.com.qsy.src.app.protocol.CommandParameters;
-import ar.com.qsy.src.app.protocol.QSYPacket;
-import ar.com.qsy.src.app.routine.Color;
+import libterminal.lib.protocol.CommandParameters;
+import libterminal.lib.protocol.QSYPacket;
+import libterminal.lib.routine.Color;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;

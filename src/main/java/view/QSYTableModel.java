@@ -1,11 +1,11 @@
 package view;
 
+import libterminal.lib.node.Node;
+
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
-
-import ar.com.qsy.src.app.node.Node;
 
 public final class QSYTableModel extends DefaultTableModel {
 

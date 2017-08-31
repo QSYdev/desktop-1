@@ -5,6 +5,7 @@ apply plugin: 'java'
 apply plugin: 'idea'
 
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -15,14 +16,21 @@ repositories {
     }
 }
 
-task(runMain, dependsOn: 'classes', type: JavaExec) {
-    main = 'MainExecution'
-    classpath = sourceSets.main.runtimeClasspath
+task runMain(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = 'main.Main'
 }
 
+task showMeCache << {
+    configurations.compile.each { println it }
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
-    compile 'com.gitlab.qsy:libterminal:dev-SNAPSHOT'
+    compile group: 'com.gitlab.qsy', name: 'libterminal', version: 'dev-SNAPSHOT', changing: true
 }

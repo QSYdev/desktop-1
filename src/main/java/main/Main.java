@@ -3,11 +3,11 @@ package main;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
-import ar.com.qsy.src.app.network.MulticastReceiver;
-import ar.com.qsy.src.app.network.ReceiverSelector;
-import ar.com.qsy.src.app.network.SenderSelector;
-import ar.com.qsy.src.app.protocol.QSYPacket;
-import ar.com.qsy.src.app.terminal.Terminal;
+import libterminal.lib.network.MulticastReceiver;
+import libterminal.lib.network.ReceiverSelector;
+import libterminal.lib.network.SenderSelector;
+import libterminal.lib.protocol.QSYPacket;
+import libterminal.lib.terminal.Terminal;
 import view.QSYFrame;
 
 public final class Main {

@@ -1,5 +1,6 @@
 package main;
 
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
@@ -14,8 +15,10 @@ public final class Main {
 
 	public static void main(final String[] args) throws Exception {
 
-		final InetSocketAddress addr = new InetSocketAddress(InetAddress.getByName("192.168.0.16"), QSYPacket.MULTICAST_PORT);
-		final MulticastReceiver multicastReceiver = new MulticastReceiver(addr, QSYPacket.MULTICAST_ADDRESS);
+		final MulticastReceiver multicastReceiver = new MulticastReceiver(
+			(Inet4Address) Inet4Address.getByName(System.getenv("MY_IP")),
+			(Inet4Address) Inet4Address.getByName(QSYPacket.MULTICAST_ADDRESS),
+			QSYPacket.MULTICAST_PORT);
 		final Terminal terminal = new Terminal();
 		final ReceiverSelector receiverSelector = new ReceiverSelector();
 		final SenderSelector senderSelector = new SenderSelector(terminal.getNodes());

@@ -7,6 +7,7 @@ import libterminal.lib.protocol.QSYPacket;
 import libterminal.lib.terminal.Terminal;
 
 import java.io.IOException;
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.Scanner;
@@ -14,7 +15,6 @@ import java.util.Scanner;
 public class CommandLineMain {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		final InetSocketAddress addr = new InetSocketAddress(InetAddress.getByName("192.168.0.201"), QSYPacket.MULTICAST_PORT);
 		MulticastReceiver multicastReceiver =  null;
 		Terminal terminal = null;
 		ReceiverSelector receiverSelector = null;
@@ -45,7 +45,11 @@ public class CommandLineMain {
 					break;
 				}
 				
-				multicastReceiver = new MulticastReceiver(addr, QSYPacket.MULTICAST_ADDRESS);
+				multicastReceiver = new MulticastReceiver(
+					(Inet4Address) Inet4Address.getByName(System.getenv("MY_IP")),
+					(Inet4Address) Inet4Address.getByName(QSYPacket.MULTICAST_ADDRESS),
+					QSYPacket.MULTICAST_PORT
+				);
 				terminal = new Terminal();
 				receiverSelector = new ReceiverSelector();
 				senderSelector = new SenderSelector(terminal.getNodes());

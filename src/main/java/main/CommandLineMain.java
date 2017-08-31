@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class CommandLineMain {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		final InetSocketAddress addr = new InetSocketAddress(InetAddress.getByName("192.168.0.18"), QSYPacket.MULTICAST_PORT);
+		final InetSocketAddress addr = new InetSocketAddress(InetAddress.getByName("192.168.0.201"), QSYPacket.MULTICAST_PORT);
 		MulticastReceiver multicastReceiver =  null;
 		Terminal terminal = null;
 		ReceiverSelector receiverSelector = null;
@@ -25,16 +25,13 @@ public class CommandLineMain {
 		Thread threadMulticastReceiver = null;
 		boolean up = false;
 		
-		
 		System.out.println("Comandos:");
 		System.out.println("s: Iniciar terminal.");
 		System.out.println("p: Terminar terminal.");
 		System.out.println("a: Iniciar busqueda de nodos");
 		System.out.println("x: Detener busqueda de nodos");
 		System.out.println("q: Salir");
-		
-		
-		
+
 		Scanner sc = new Scanner(System.in);
 		char option = 0;
 		while(option != 'q') {
@@ -108,5 +105,4 @@ public class CommandLineMain {
 		sc.close();
 		System.out.print("Buh-bye");
 	}
-
 }

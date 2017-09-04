@@ -1,5 +1,7 @@
 .gradle
 *.iml
+.idea/modules/desktop_main.iml
+.idea/modules/desktop_test.iml
 /build/
 gradle-app.setting
 !gradle-wrapper.jar

@@ -34,7 +34,10 @@ public final class RoutinePanel extends JPanel {
 			@Override
 			public void actionPerformed(final ActionEvent e) {
 				try {
-					parent.getTerminal().executeCustom(RoutineManager.loadRoutine("ar/com/qsy/src/resources/routine1.json"), null);
+					parent.getTerminal().executeCustom(
+						RoutineManager.loadRoutine("ar/com/qsy/src/resources/routine1.json"),
+						null,
+						0);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}

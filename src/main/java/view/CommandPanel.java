@@ -68,7 +68,7 @@ public final class CommandPanel extends JPanel implements AutoCloseable {
 					final long delay = Long.parseLong(textDelay.getText());
 					final InetAddress nodeAddress = (InetAddress) table.getValueAt(table.getSelectedRow(), 1);
 					final int nodeId = (Integer) table.getValueAt(table.getSelectedRow(), 0);
-					CommandParameters commandParameters = new CommandParameters(nodeId, delay, color);
+					CommandParameters commandParameters = new CommandParameters(nodeId, delay, color, 0);
 					parent.getTerminal().sendQSYPacket(QSYPacket.createCommandPacket(nodeAddress, commandParameters, false, false));
 
 				} catch (final NullPointerException exception) {

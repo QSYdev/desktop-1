@@ -55,7 +55,7 @@ public final class SearchPanel extends JPanel implements AutoCloseable {
 				// while (table.getModel().getRowCount() > 0) {
 				// ((QSYTableModel) table.getModel()).removeRow(0);
 				// }
-				parent.getTerminal().searchNodes();
+				parent.getLibterminal().startNodesSearch();
 				btnStopSearch.setVisible(true);
 				btnStartSearch.setVisible(false);
 			}
@@ -82,7 +82,7 @@ public final class SearchPanel extends JPanel implements AutoCloseable {
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
-				parent.getTerminal().finalizeNodesSearch();
+				parent.getLibterminal().stopNodesSearch();
 				btnStopSearch.setVisible(false);
 				btnStartSearch.setVisible(true);
 			}

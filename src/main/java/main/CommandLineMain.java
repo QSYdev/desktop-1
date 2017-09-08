@@ -2,14 +2,12 @@ package main;
 
 import libterminal.lib.network.MulticastReceiver;
 import libterminal.lib.network.ReceiverSelector;
-import libterminal.lib.network.SenderSelector;
+import libterminal.lib.network.Sender;
 import libterminal.lib.protocol.QSYPacket;
 import libterminal.lib.terminal.Terminal;
 
 import java.io.IOException;
 import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.util.Scanner;
 
 public class CommandLineMain {
@@ -18,7 +16,7 @@ public class CommandLineMain {
 		MulticastReceiver multicastReceiver =  null;
 		Terminal terminal = null;
 		ReceiverSelector receiverSelector = null;
-		SenderSelector senderSelector;
+		Sender senderSelector;
 		Thread threadReceiveSelector = null;
 		Thread threadTerminal = null;
 		Thread threadSenderSelector = null;
@@ -52,7 +50,7 @@ public class CommandLineMain {
 				);
 				terminal = new Terminal();
 				receiverSelector = new ReceiverSelector();
-				senderSelector = new SenderSelector(terminal.getNodes());
+				senderSelector = new Sender(terminal.getNodes());
 				threadReceiveSelector = new Thread(receiverSelector, "Receive Selector");
 				threadTerminal = new Thread(terminal, "Terminal");
 				threadSenderSelector = new Thread(senderSelector, "Sender Selector");

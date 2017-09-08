@@ -34,10 +34,12 @@ public final class RoutinePanel extends JPanel {
 			@Override
 			public void actionPerformed(final ActionEvent e) {
 				try {
-					parent.getTerminal().executeCustom(
+					parent.getLibterminal().executeCustom(
 						RoutineManager.loadRoutine("ar/com/qsy/src/resources/routine1.json"),
 						null,
-						0);
+						0,
+						false,
+						false);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -58,7 +60,18 @@ public final class RoutinePanel extends JPanel {
 						playersAndColors.add(new Color((byte) 0x0, (byte) 0, (byte) 0xF));
 						nodesIdsAssociations.put(i - 5, i);
 					}
-					parent.getTerminal().executePlayer(nodesIdsAssociations, 3, playersAndColors, true, 2000, 500, 0, 10, false);
+					parent.getLibterminal().executePlayer(
+						nodesIdsAssociations,
+						3,
+						playersAndColors,
+						true,
+						2000,
+						500,
+						0,
+						10,
+						false,
+						false,
+						false);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}

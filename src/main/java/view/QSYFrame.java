@@ -1,5 +1,6 @@
 package view;
 
+import libterminal.api.TerminalAPI;
 import libterminal.lib.node.Node;
 import libterminal.lib.terminal.Terminal;
 import libterminal.patterns.observer.Event;
@@ -31,9 +32,9 @@ public final class QSYFrame extends JFrame implements AutoCloseable, EventListen
 	private final CommandPanel commandPanel;
 	private final RoutinePanel routinePanel;
 
-	private final Terminal terminal;
+	private final TerminalAPI libterminal;
 
-	public QSYFrame(final Terminal terminal) {
+	public QSYFrame(TerminalAPI terminal) {
 		super("QSY Packet Sender");
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -47,11 +48,11 @@ public final class QSYFrame extends JFrame implements AutoCloseable, EventListen
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(final WindowEvent e) {
-				// TODO notificar a la terminal.
+				// TODO notificar a la libterminal.
 			}
 		});
 
-		this.terminal = terminal;
+		this.libterminal = terminal;
 
 		searchPanel = new SearchPanel(this);
 		commandPanel = new CommandPanel(this);
@@ -85,8 +86,8 @@ public final class QSYFrame extends JFrame implements AutoCloseable, EventListen
 		return commandPanel;
 	}
 
-	public Terminal getTerminal() {
-		return terminal;
+	public TerminalAPI getLibterminal() {
+		return libterminal;
 	}
 
 	private void newNodeCreated(final Node node) {

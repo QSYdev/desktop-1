@@ -16,6 +16,7 @@ public class CommandLineMain {
 		System.out.println("p: Terminar terminal.");
 		System.out.println("a: Iniciar busqueda de nodos");
 		System.out.println("x: Detener busqueda de nodos");
+		System.out.println("n: Obtener cantidad de nodos");
 		System.out.println("q: Salir");
 
 		Scanner sc = new Scanner(System.in);
@@ -61,6 +62,13 @@ public class CommandLineMain {
 				term.stopNodesSearch();
 				System.out.println("Busqueda detenida.");
 				break;
+				case 'n':
+					if(!up) {
+						System.out.println("Terminal no esta corriendo.");
+						break;
+					}
+					System.out.println("Cantidad de nodos conectados: "+term.connectedNodesAmount());
+					break;
 			default:
 				break;
 			}	

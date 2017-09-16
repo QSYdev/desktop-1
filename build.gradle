@@ -33,5 +33,5 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
 //    compile group: 'com.gitlab.QSY', name: 'libterminal', version: '0e82673fea', changing: true
-    compile group: 'com.github.QSYteam', name: 'libterminal', version: 'dev-SNAPSHOT', changing: true
+    compile group: 'com.github.QSYteam', name: 'libterminal', version: 'visitor-SNAPSHOT', changing: true
 }

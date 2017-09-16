@@ -5,6 +5,7 @@ import libterminal.lib.node.Node;
 import libterminal.lib.terminal.Terminal;
 import libterminal.patterns.observer.Event;
 import libterminal.patterns.observer.EventListener;
+import libterminal.patterns.visitor.InternalEventHandler;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -27,6 +28,8 @@ public final class QSYFrame extends JFrame implements AutoCloseable, EventListen
 
 	private static final int WIDTH = 550;
 	private static final int HEIGHT = 600;
+
+	private final InternalEventHandler eventHandler;
 
 	private final SearchPanel searchPanel;
 	private final CommandPanel commandPanel;
@@ -53,6 +56,7 @@ public final class QSYFrame extends JFrame implements AutoCloseable, EventListen
 		});
 
 		this.libterminal = terminal;
+		this.eventHandler = new EventHandler();
 
 		searchPanel = new SearchPanel(this);
 		commandPanel = new CommandPanel(this);
@@ -116,20 +120,23 @@ public final class QSYFrame extends JFrame implements AutoCloseable, EventListen
 
 	@Override
 	public void receiveEvent(final Event event) {
-		switch (event.getEventType()) {
-		case newNode: {
-			final Node node = (Node) event.getContent();
-			newNodeCreated(node);
-			break;
-		}
-		case disconnectedNode: {
-			final Node node = (Node) event.getContent();
-			removeDisconectedNode(node);
-			break;
-		}
-		default: {
-			break;
-		}
+		if (event instanceof Event.InternalEvent) {
+			((Event.InternalEvent) event).acceptHandler(eventHandler);
 		}
 	}
+
+	private final class EventHandler extends InternalEventHandler {
+
+        @Override
+        public void handle(final Event.NewNodeEvent event) {
+            super.handle(event);
+            newNodeCreated(event.getNode());
+        }
+
+        @Override
+        public void handle(final Event.DisconnectedNodeEvent event) {
+            super.handle(event);
+            removeDisconectedNode(event.getNode());
+        }
+    }
 }

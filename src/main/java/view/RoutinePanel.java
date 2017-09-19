@@ -35,7 +35,7 @@ public final class RoutinePanel extends JPanel {
 			public void actionPerformed(final ActionEvent e) {
 				try {
 					parent.getLibterminal().executeCustom(
-						RoutineManager.loadRoutine("ar/com/qsy/src/resources/routine1.json"),
+						RoutineManager.loadRoutine("src/main/java/resources/routine1.json"),
 						null,
 						false,
 						false);

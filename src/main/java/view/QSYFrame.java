@@ -48,13 +48,6 @@ public final class QSYFrame extends JFrame implements AutoCloseable, EventListen
 		setBounds(0, 0, WIDTH, HEIGHT);
 		setLocationRelativeTo(null);
 
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosed(final WindowEvent e) {
-				// TODO notificar a la libterminal.
-			}
-		});
-
 		this.libterminal = terminal;
 		this.eventHandler = new EventHandler();
 

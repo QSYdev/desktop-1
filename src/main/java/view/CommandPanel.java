@@ -25,7 +25,7 @@ import javax.swing.border.CompoundBorder;
 public final class CommandPanel extends JPanel implements AutoCloseable {
 
 	private static final long serialVersionUID = 1L;
-	private static final String[] comboBoxPosibilites = { "No Color", "Red", "Green", "Blue", "Cyan", "Violeta", "Yellow", "White" };
+	private static final String[] comboBoxPosibilites = { "No Color", "Red", "Green", "Blue", "Cyan", "Violet", "Yellow", "White" };
 	private static final Color[] colors = { Color.NO_COLOR, Color.RED, Color.GREEN, Color.BLUE, Color.CYAN, Color.VIOLET, Color.YELLOW, Color.WHITE };
 
 	private final JComboBox<String> comboBoxColor;

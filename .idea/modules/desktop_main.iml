@@ -9,7 +9,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: com.github.QSYteam:libterminal:visitor-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.QSYteam:libterminal:dev-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.2.4" level="project" />
   </component>
 </module>

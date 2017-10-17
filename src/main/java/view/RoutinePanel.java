@@ -9,9 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 
 public final class RoutinePanel extends JPanel {
@@ -20,6 +18,7 @@ public final class RoutinePanel extends JPanel {
 
 	private final JButton btnCustomRoutineStart;
 	private final JButton btnPlayerRoutineStart;
+	private final JButton btnStopRoutine;
 
 	public RoutinePanel(final QSYFrame parent) {
 		this.setLayout(new GridLayout(0, 1, 2, 2));
@@ -53,21 +52,22 @@ public final class RoutinePanel extends JPanel {
 			@Override
 			public void actionPerformed(final ActionEvent e) {
 				try {
-					final TreeMap<Integer, Integer> nodesIdsAssociations = new TreeMap<>();
+					//final TreeMap<Integer, Integer> nodesIdsAssociations = new TreeMap<>();
 					final ArrayList<Color> playersAndColors = new ArrayList<>();
-					for (int i = 6; i <= 8; i++) {
-						playersAndColors.add(new Color((byte) 0x0, (byte) 0, (byte) 0xF));
-						nodesIdsAssociations.put(i - 5, i);
-					}
+					//for (int i = 0; i <= 8; i++) {
+						//playersAndColors.add(new Color((byte) 0x0, (byte) 0, (byte) 0xF));
+						//nodesIdsAssociations.put(i - 5, i);
+					//}
+					playersAndColors.add(Color.MAGENTA);
 					parent.getLibterminal().executePlayer(
-						nodesIdsAssociations,
-						3,
+						null,
+						1,
 						playersAndColors,
 						true,
-						2000,
+						0,
 						500,
 						0,
-						10,
+						256,
 						false,
 						false,
 						false);
@@ -76,6 +76,22 @@ public final class RoutinePanel extends JPanel {
 				}
 			}
 		});
+
+		btnStopRoutine = new JButton("Stop Routine");
+		this.add(btnStopRoutine);
+
+		btnStopRoutine.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                try {
+                    parent.getLibterminal().stopExecution();
+                } catch (final Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
+
+        });
 
 	}
 

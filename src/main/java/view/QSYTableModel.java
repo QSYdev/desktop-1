@@ -2,6 +2,7 @@ package view;
 
 import libterminal.lib.node.Node;
 
+import java.net.InetAddress;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,13 +29,13 @@ public final class QSYTableModel extends DefaultTableModel {
 		return false;
 	}
 
-	public void addNode(final Node node) {
-		addRow(new Object[] { node.getNodeId(), node.getNodeAddress(), "enabled" });
-		nodes.add(node.getNodeId());
+	public void addNode(final int physicalId, final InetAddress nodeAddress) {
+		addRow(new Object[] { physicalId, nodeAddress, "enabled" });
+		nodes.add(physicalId);
 	}
 
-	public void removeNode(final Node node) {
-		final int rowToDelete = nodes.indexOf(node.getNodeId());
+	public void removeNode(final int physicalId, final InetAddress nodeAddress) {
+		final int rowToDelete = nodes.indexOf(physicalId);
 		if (rowToDelete != -1) {
 			removeRow(rowToDelete);
 			nodes.remove(rowToDelete);

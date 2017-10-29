@@ -1,17 +1,18 @@
 package view;
 
-import libterminal.api.TerminalAPI;
 import libterminal.lib.node.Node;
 import libterminal.lib.terminal.Terminal;
+import libterminal.patterns.observer.AbstractEventListener;
 import libterminal.patterns.observer.Event;
 import libterminal.patterns.observer.EventListener;
-import libterminal.patterns.visitor.EventHandler;
+import libterminal.patterns.visitor.event.ExternalEventHandler;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.InetAddress;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -22,22 +23,22 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-public final class QSYFrame extends JFrame implements AutoCloseable, EventListener {
+public final class QSYFrame extends JFrame implements AutoCloseable, AbstractEventListener<Event.ExternalEvent> {
 
 	private static final long serialVersionUID = 1L;
 
 	private static final int WIDTH = 550;
 	private static final int HEIGHT = 600;
 
-	private final EventHandler eventHandler;
+	private final ExternalEventHandler eventHandler;
 
 	private final SearchPanel searchPanel;
 	private final CommandPanel commandPanel;
 	private final RoutinePanel routinePanel;
 
-	private final TerminalAPI libterminal;
+	private final Terminal libterminal;
 
-	public QSYFrame(TerminalAPI terminal) {
+	public QSYFrame(Terminal terminal) {
 		super("QSY Packet Sender");
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -49,7 +50,7 @@ public final class QSYFrame extends JFrame implements AutoCloseable, EventListen
 		setLocationRelativeTo(null);
 
 		this.libterminal = terminal;
-		this.eventHandler = new InternalEventHandler();
+		this.eventHandler = new Handler();
 
 		searchPanel = new SearchPanel(this);
 		commandPanel = new CommandPanel(this);
@@ -72,6 +73,14 @@ public final class QSYFrame extends JFrame implements AutoCloseable, EventListen
 
 		commandPanel.setEnabled(false);
 
+		addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                super.windowClosed(e);
+                terminal.close();
+            }
+        });
+
 		setVisible(true);
 	}
 
@@ -83,26 +92,8 @@ public final class QSYFrame extends JFrame implements AutoCloseable, EventListen
 		return commandPanel;
 	}
 
-	public TerminalAPI getLibterminal() {
+	public Terminal getLibterminal() {
 		return libterminal;
-	}
-
-	private void newNodeCreated(final Node node) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				searchPanel.addNewNode(node);
-			}
-		});
-	}
-
-	private void removeDisconectedNode(final Node node) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				searchPanel.removeNode(node);
-			}
-		});
 	}
 
 	@Override
@@ -111,23 +102,42 @@ public final class QSYFrame extends JFrame implements AutoCloseable, EventListen
 		commandPanel.close();
 	}
 
-	@Override
-	public void receiveEvent(final Event event) {
-        event.acceptHandler(eventHandler);
-	}
+    @Override
+    public void receiveEvent(Event.ExternalEvent externalEvent) {
+        externalEvent.acceptHandler(eventHandler);
+    }
 
-    private final class InternalEventHandler extends EventHandler {
+    @Override
+    public Event.ExternalEvent getEvent() throws InterruptedException {
+        return null;
+    }
+
+    private final class Handler implements ExternalEventHandler {
 
         @Override
-        public void handle(final Event.NewNodeEvent event) {
-            super.handle(event);
-            newNodeCreated(event.getNode());
+        public void handle(Event.Touche event) {
+            System.out.println("El nodo " + event.getToucheArgs().getPhysicalId() + " ha sido tocado");
         }
 
         @Override
-        public void handle(final Event.DisconnectedNodeEvent event) {
-            super.handle(event);
-            removeDisconectedNode(event.getNode());
+        public void handle(Event.ConnectedNode event) {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    searchPanel.addNewNode(event.getPhysicalId(), event.getNodeAddress());
+                }
+            });
+        }
+
+        @Override
+        public void handle(Event.DisconnectedNode event) {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    searchPanel.removeNode(event.getPhysicalId(), event.getNodeAddress());
+                }
+            });
         }
     }
+
 }

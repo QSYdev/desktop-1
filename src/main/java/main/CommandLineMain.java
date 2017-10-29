@@ -1,6 +1,6 @@
 package main;
 
-import libterminal.api.TerminalAPI;
+import libterminal.lib.terminal.Terminal;
 
 import java.net.Inet4Address;
 import java.util.Scanner;
@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class CommandLineMain {
 
 	public static void main(String[] args) throws Exception {
-		TerminalAPI term = new TerminalAPI((Inet4Address) Inet4Address.getByName(System.getenv("MY_IP")));
+		Terminal term = new Terminal((Inet4Address) Inet4Address.getByName(System.getenv("MY_IP")));
 	    boolean up = false;
 
 		System.out.println("Comandos:");
@@ -51,7 +51,7 @@ public class CommandLineMain {
 					System.out.println("Terminal no esta corriendo.");
 					break;
 				}
-				term.startNodesSearch();
+				term.searchNodes();
 				System.out.println("Búsqueda de nodos iniciada.");
 				break;
 			case 'x':
@@ -59,7 +59,7 @@ public class CommandLineMain {
 					System.out.println("Terminal no esta corriendo.");
 					break;
 				}
-				term.stopNodesSearch();
+				term.finalizeNodesSearch();
 				System.out.println("Busqueda detenida.");
 				break;
 				case 'n':
@@ -67,7 +67,7 @@ public class CommandLineMain {
 						System.out.println("Terminal no esta corriendo.");
 						break;
 					}
-					System.out.println("Cantidad de nodos conectados: "+term.connectedNodesAmount());
+					System.out.println("Cantidad de nodos conectados: " + term.connectedNodesAmount());
 					break;
 			default:
 				break;

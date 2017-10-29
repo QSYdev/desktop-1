@@ -1,13 +1,9 @@
 package view;
 
-import libterminal.lib.routine.Color;
-import libterminal.utils.RoutineManager;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.TreeMap;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -32,6 +28,7 @@ public final class RoutinePanel extends JPanel {
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
+				/*
 				try {
 					parent.getLibterminal().executeCustom(
 						RoutineManager.loadRoutine("src/main/java/resources/routine1.json"),
@@ -40,7 +37,7 @@ public final class RoutinePanel extends JPanel {
 						false);
 				} catch (Exception e1) {
 					e1.printStackTrace();
-				}
+				}*/
 			}
 		});
 
@@ -51,13 +48,14 @@ public final class RoutinePanel extends JPanel {
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
-				try {
+				/*try {
 					//final TreeMap<Integer, Integer> nodesIdsAssociations = new TreeMap<>();
 					final ArrayList<Color> playersAndColors = new ArrayList<>();
 					//for (int i = 0; i <= 8; i++) {
 						//playersAndColors.add(new Color((byte) 0x0, (byte) 0, (byte) 0xF));
 						//nodesIdsAssociations.put(i - 5, i);
 					//}
+                    /*
 					playersAndColors.add(Color.MAGENTA);
 					parent.getLibterminal().executePlayer(
 						null,
@@ -73,7 +71,7 @@ public final class RoutinePanel extends JPanel {
 						false);
 				} catch (Exception e1) {
 					e1.printStackTrace();
-				}
+				}*/
 			}
 		});
 
@@ -84,11 +82,12 @@ public final class RoutinePanel extends JPanel {
 
             @Override
             public void actionPerformed(final ActionEvent e) {
+                /*
                 try {
                     parent.getLibterminal().stopExecution();
                 } catch (final Exception e1) {
                     e1.printStackTrace();
-                }
+                }*/
             }
 
         });

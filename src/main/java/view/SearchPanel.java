@@ -4,6 +4,7 @@ import libterminal.lib.node.Node;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.InetAddress;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -55,7 +56,7 @@ public final class SearchPanel extends JPanel implements AutoCloseable {
 				// while (table.getModel().getRowCount() > 0) {
 				// ((QSYTableModel) table.getModel()).removeRow(0);
 				// }
-				parent.getLibterminal().startNodesSearch();
+				parent.getLibterminal().searchNodes();
 				btnStopSearch.setVisible(true);
 				btnStartSearch.setVisible(false);
 			}
@@ -82,7 +83,7 @@ public final class SearchPanel extends JPanel implements AutoCloseable {
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
-				parent.getLibterminal().stopNodesSearch();
+				parent.getLibterminal().finalizeNodesSearch();
 				btnStopSearch.setVisible(false);
 				btnStartSearch.setVisible(true);
 			}
@@ -95,12 +96,12 @@ public final class SearchPanel extends JPanel implements AutoCloseable {
 		return table;
 	}
 
-	public void addNewNode(final Node node) {
-		model.addNode(node);
+	public void addNewNode(final int physicalId, final InetAddress nodeAddress) {
+		model.addNode(physicalId, nodeAddress);
 	}
 
-	public void removeNode(final Node node) {
-		model.removeNode(node);
+	public void removeNode(final int physicalId, final InetAddress nodeAddress) {
+		model.removeNode(physicalId, nodeAddress);
 	}
 
 	@Override

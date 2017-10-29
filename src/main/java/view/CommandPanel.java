@@ -1,6 +1,5 @@
 package view;
 
-import libterminal.lib.protocol.CommandParameters;
 import libterminal.lib.protocol.QSYPacket;
 import libterminal.lib.routine.Color;
 
@@ -8,7 +7,6 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.InetAddress;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -77,8 +75,8 @@ public final class CommandPanel extends JPanel implements AutoCloseable {
 					final long delay = Long.parseLong(textDelay.getText());
 					final int nodeId = (Integer) table.getValueAt(table.getSelectedRow(), 0);
 					final int stepId = Integer.parseInt(textStepId.getText());
-					CommandParameters commandParameters = new CommandParameters(nodeId, delay, color, stepId);
-					parent.getLibterminal().sendPacket(nodeId, commandParameters, false, false);
+					QSYPacket.CommandArgs commandArgs = new QSYPacket.CommandArgs(nodeId, color, delay, stepId);
+					parent.getLibterminal().sendCommand(commandArgs);
 
 				} catch (final NullPointerException exception) {
 					JOptionPane.showMessageDialog(null, "Se debe seleccionar un color", "Error", JOptionPane.ERROR_MESSAGE);

@@ -22,6 +22,7 @@ public final class RoutinePanel extends JPanel {
 		this.setBorder(new CompoundBorder(BorderFactory.createTitledBorder("Routine"), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 		btnCustomRoutineStart = new JButton("Start CustomRoutine");
+		btnCustomRoutineStart.setEnabled(false);
 		this.add(btnCustomRoutineStart);
 
 		btnCustomRoutineStart.addActionListener(new ActionListener() {
@@ -42,6 +43,7 @@ public final class RoutinePanel extends JPanel {
 		});
 
 		btnPlayerRoutineStart = new JButton("Start PlayerRoutine");
+		btnPlayerRoutineStart.setEnabled(false);
 		this.add(btnPlayerRoutineStart);
 
 		btnPlayerRoutineStart.addActionListener(new ActionListener() {
@@ -76,6 +78,7 @@ public final class RoutinePanel extends JPanel {
 		});
 
 		btnStopRoutine = new JButton("Stop Routine");
+		btnStopRoutine.setEnabled(false);
 		this.add(btnStopRoutine);
 
 		btnStopRoutine.addActionListener(new ActionListener() {

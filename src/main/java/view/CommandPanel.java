@@ -7,17 +7,9 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
-import javax.swing.BorderFactory;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 
 public final class CommandPanel extends JPanel implements AutoCloseable {
@@ -28,7 +20,7 @@ public final class CommandPanel extends JPanel implements AutoCloseable {
 
 	private final JComboBox<String> comboBoxColor;
 	private final JTextField textDelay;
-	private final JTextField textStepId;
+	private final JCheckBox checkBoxStepId;
 	private final JButton btnSendCommand;
 
 	public CommandPanel(final QSYFrame parent) {
@@ -52,14 +44,19 @@ public final class CommandPanel extends JPanel implements AutoCloseable {
 		textDelay.setMaximumSize(new Dimension(Integer.MAX_VALUE, textDelay.getPreferredSize().width));
 		this.add(textDelay);
 
+		/*
 		final JLabel lblStepId = new JLabel("StepId :");
         this.add(lblStepId);
 
-        textStepId = new JTextField();
-        textStepId.setHorizontalAlignment(SwingConstants.LEFT);
-        textStepId.setText("0");
-        textStepId.setMaximumSize(new Dimension(Integer.MAX_VALUE, textStepId.getPreferredSize().width));
-        this.add(textStepId);
+        checkBoxStepId = new JTextField();
+        checkBoxStepId.setHorizontalAlignment(SwingConstants.LEFT);
+        checkBoxStepId.setText("0");
+        checkBoxStepId.setMaximumSize(new Dimension(Integer.MAX_VALUE, checkBoxStepId.getPreferredSize().width));
+        this.add(checkBoxStepId);
+		*/
+        checkBoxStepId = new JCheckBox("Activar sensor");
+        checkBoxStepId.setMnemonic(KeyEvent.VK_A);
+        this.add(checkBoxStepId);
 
 		btnSendCommand = new JButton("Send Command");
 		this.add(btnSendCommand);
@@ -74,7 +71,7 @@ public final class CommandPanel extends JPanel implements AutoCloseable {
 					final Color color = getSelectedColorFromComboBox();
 					final long delay = Long.parseLong(textDelay.getText());
 					final int nodeId = (Integer) table.getValueAt(table.getSelectedRow(), 0);
-					final int stepId = Integer.parseInt(textStepId.getText());
+					final int stepId = (checkBoxStepId.isSelected()) ? 1 : 0;
 					QSYPacket.CommandArgs commandArgs = new QSYPacket.CommandArgs(nodeId, color, delay, stepId);
 					parent.getLibterminal().sendCommand(commandArgs);
 
@@ -97,12 +94,12 @@ public final class CommandPanel extends JPanel implements AutoCloseable {
 		super.setEnabled(enabled);
 		comboBoxColor.setEnabled(enabled);
 		textDelay.setEnabled(enabled);
-		textStepId.setEnabled(enabled);
-		btnSendCommand.setEnabled(enabled);
-		if (!enabled) {
-			comboBoxColor.setSelectedIndex(0);
-			textDelay.setText("0");
-			textStepId.setText("0");
+		checkBoxStepId.setEnabled(enabled);
+        checkBoxStepId.setSelected(false);
+        btnSendCommand.setEnabled(enabled);
+        if (!enabled) {
+            comboBoxColor.setSelectedIndex(0);
+            textDelay.setText("0");
 		}
 	}
 

@@ -1,8 +1,6 @@
 package view;
 
-import libterminal.lib.node.Node;
 import libterminal.lib.terminal.Terminal;
-import libterminal.patterns.observer.AbstractEventListener;
 import libterminal.patterns.observer.Event;
 import libterminal.patterns.observer.EventListener;
 import libterminal.patterns.visitor.event.ExternalEventHandler;
@@ -12,7 +10,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.net.InetAddress;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -23,18 +20,19 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-public final class QSYFrame extends JFrame implements AutoCloseable, AbstractEventListener<Event.ExternalEvent> {
+public final class QSYFrame extends JFrame implements AutoCloseable {
 
 	private static final long serialVersionUID = 1L;
 
 	private static final int WIDTH = 550;
 	private static final int HEIGHT = 600;
 
-	private final ExternalEventHandler eventHandler;
+	private final EventHandler eventHandler;
 
 	private final SearchPanel searchPanel;
 	private final CommandPanel commandPanel;
 	private final RoutinePanel routinePanel;
+	private final StressPanel stressPanel;
 
 	private final Terminal libterminal;
 
@@ -50,11 +48,11 @@ public final class QSYFrame extends JFrame implements AutoCloseable, AbstractEve
 		setLocationRelativeTo(null);
 
 		this.libterminal = terminal;
-		this.eventHandler = new Handler();
 
 		searchPanel = new SearchPanel(this);
 		commandPanel = new CommandPanel(this);
 		routinePanel = new RoutinePanel(this);
+		stressPanel = new StressPanel(this);
 
 		final Container rightPane = new Container();
 		rightPane.setLayout(new BoxLayout(rightPane, BoxLayout.Y_AXIS));
@@ -62,6 +60,9 @@ public final class QSYFrame extends JFrame implements AutoCloseable, AbstractEve
 		rightPane.add(new Box.Filler(new Dimension(0, 0), new Dimension(0, Integer.MAX_VALUE), new Dimension(0, Integer.MAX_VALUE)));
 
 		rightPane.add(routinePanel);
+		rightPane.add(new Box.Filler(new Dimension(0, 0), new Dimension(0, Integer.MAX_VALUE), new Dimension(0, Integer.MAX_VALUE)));
+
+		rightPane.add(stressPanel);
 		rightPane.add(new Box.Filler(new Dimension(0, 0), new Dimension(0, Integer.MAX_VALUE), new Dimension(0, Integer.MAX_VALUE)));
 
 		final JPanel contentPane = (JPanel) this.getContentPane();
@@ -73,14 +74,7 @@ public final class QSYFrame extends JFrame implements AutoCloseable, AbstractEve
 
 		commandPanel.setEnabled(false);
 
-		addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                super.windowClosed(e);
-                terminal.close();
-            }
-        });
-
+		this.eventHandler = new EventHandler();
 		setVisible(true);
 	}
 
@@ -96,23 +90,45 @@ public final class QSYFrame extends JFrame implements AutoCloseable, AbstractEve
 		return libterminal;
 	}
 
-	@Override
-	public void close() throws Exception {
+    public EventHandler getEventHandler() {
+        return eventHandler;
+    }
+
+    @Override
+	public void close() {
 		searchPanel.close();
 		commandPanel.close();
+		eventHandler.close();
 	}
 
-    @Override
-    public void receiveEvent(Event.ExternalEvent externalEvent) {
-        externalEvent.acceptHandler(eventHandler);
-    }
+    private final class EventHandler extends EventListener<Event.ExternalEvent> implements Runnable, ExternalEventHandler, AutoCloseable {
 
-    @Override
-    public Event.ExternalEvent getEvent() throws InterruptedException {
-        return null;
-    }
+	    private final Thread thread;
+	    private boolean running;
 
-    private final class Handler implements ExternalEventHandler {
+	    public EventHandler() {
+	        this.running = true;
+
+	        this.thread = new Thread(this, "View Task");
+	        thread.start();
+        }
+
+        @Override
+        public void run() {
+            while(running) {
+                try {
+                    final Event.ExternalEvent event = getEvent();
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            event.acceptHandler(EventHandler.this);
+                        }
+                    });
+                } catch (final InterruptedException e) {
+                    running = false;
+                }
+            }
+        }
 
         @Override
         public void handle(Event.Touche event) {
@@ -121,22 +137,22 @@ public final class QSYFrame extends JFrame implements AutoCloseable, AbstractEve
 
         @Override
         public void handle(Event.ConnectedNode event) {
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    searchPanel.addNewNode(event.getPhysicalId(), event.getNodeAddress());
-                }
-            });
+            searchPanel.addNewNode(event.getPhysicalId(), event.getNodeAddress());
         }
 
         @Override
         public void handle(Event.DisconnectedNode event) {
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    searchPanel.removeNode(event.getPhysicalId(), event.getNodeAddress());
-                }
-            });
+	        searchPanel.removeNode(event.getPhysicalId(), event.getNodeAddress());
+        }
+
+        @Override
+        public void close() {
+            thread.interrupt();
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
